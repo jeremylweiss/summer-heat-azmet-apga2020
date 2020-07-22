@@ -33,10 +33,10 @@ loadfonts(device = "postscript")
 
 stn_list <- read.csv("azmet-station-list.csv", sep = ",")
 stn_name <- "Bowie"
-yr_start <- stn_list$start_yr[which(stn_list$stn == stn_name)] + 1
-#yr_start <- 2019
-yr_end <- stn_list$end_yr[which(stn_list$stn == stn_name)]
-#yr_end <- 2020
+#yr_start <- stn_list$start_yr[which(stn_list$stn == stn_name)] + 1
+yr_start <- 2019
+#yr_end <- stn_list$end_yr[which(stn_list$stn == stn_name)]
+yr_end <- 2020
 
 # Load function to download and transform daily AZMET data
 source("azmet.hourly.data.download.R")
@@ -157,7 +157,7 @@ p <- ggplot() +
                      aesthetics = c("color", "fill"),
                      name = "Temperature \nRange") +
   
-  facet_wrap(~ Year, ncol = 3) +
+  facet_wrap(~ Year, ncol = 1) +
   
   # Specify axis breaks, gridlines, and limits
   scale_x_continuous(
@@ -180,7 +180,7 @@ p <- ggplot() +
   
   # Add the graph title, subtitle, and axis labels
   ggtitle("Hours per Day above 95°F") +
-  labs(subtitle = "AZMET Bowie station",
+  labs(subtitle = paste("AZMET", stn_name, "station", sep = " "),
        x = "\nDate",
        y = "Hours\n",
        caption = paste0(
@@ -220,11 +220,13 @@ p <- ggplot() +
 p
 
 #  Save the figure
-ggsave(file = paste0("summer-heat-azmet-apga2020-", 
+ggsave(file = paste0("summer-heat-azmet-apga2020-",
+                     stn_name,
+                     "-",
                      Sys.Date(),
                      #".eps"),
                      ".png"),
        #plot = p, device = cairo_pdf, path = NULL, scale = 1,
-       plot = p, device = png, path = NULL, scale = 1,
+       plot = p, device = "png", path = NULL, scale = 1,
        width = 6, height = 4, units = "in", dpi = 300) 
 
