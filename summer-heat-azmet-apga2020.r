@@ -47,9 +47,10 @@ stn_data_hourly <- azmet.hourly.data.download(stn_name)
 stn_data_hourly <- select(stn_data_hourly, DateTime, Date, Year, Month, Day, 
                           JDay, Hour, Temp)
 
-# Filter hourly data to the months of June and July during years of interest
+# Filter hourly data to the months of June through August during years of 
+# interest
 stn_data_hourly <- filter(stn_data_hourly, Year == yr_start | Year == yr_end)
-stn_data_hourly <- filter(stn_data_hourly, Month == 6 | Month == 7)
+stn_data_hourly <- filter(stn_data_hourly, Month >= 6 & Month <= 8)
 
 # Convert temperature from Celsius to Fahrenheit
 stn_data_hourly$Temp <- (1.8 * stn_data_hourly$Temp) + 32
@@ -164,7 +165,7 @@ p <- ggplot() +
     breaks = c(152, 166, 182, 196, 213, 227, 244, 258),
     labels = c("Jun 1", "Jun 15","Jul 1", "Jul 15",
                "Aug 1", "Aug 15", "Sep 1", "Sep 15"),
-    limits = c(151, 214),
+    limits = c(151, 245),
     expand = c(0.0, 0.0)
   ) +
   
